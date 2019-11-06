@@ -8,6 +8,7 @@ FROM dual;
 
 SELECT :yyyymm as param, TO_CHAR(LAST_DAY(TO_DATE(:YYYYMM,'YYYYMM')), 'DD') day_cnt
 FROM dual;
+
 -- 실행계획을 작성하라는 것
 explain plan for -- 실행하면 설명되었습니다.라고 뜸
 SELECT *
@@ -188,6 +189,17 @@ GROUP BY deptno;
 -- 직원중 상급자가 있는 직원의 수 (null 제외)
 -- 전체 직원의 수
 
+-- Q. 실습2) Function (group function 실습) 160p
+/*
+    emp테이블을 이용하여 다음을 구하시오
+    - 부서기준 직원중 가장 높은 급여
+    - 부서기준 직원중 가장 낮은 급여
+    - 부서기준 직원의 급여 평균
+    - 부서기준 직원의 급여 합
+    - 부서의 직원중 급여가 있는 직원의 수(NULL제외)
+    - 부서의 직원중 상급자가 있는 직원의 수(NULL제외)
+    - 부서의 전체 직원의 수
+*/
 
 
 

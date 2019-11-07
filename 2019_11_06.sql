@@ -214,18 +214,3 @@ FROM emp a, dept b
 WHERE a.deptno = b.deptno
 AND a.deptno IN (10,30)
 ORDER BY empno;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

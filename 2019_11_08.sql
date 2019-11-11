@@ -219,5 +219,17 @@ FROM emp
 WHERE sal > (SELECT AVG(sal)
              FROM emp);
 
+-- Q. 서브쿼리 (실습 sub3) 233p
+-- SMITH와 WARD사원이 속한 부서의 모든 사원 정보를 조회하는 쿼리를
+-- 다음과 같이 작성하세요.
+SELECT deptno
+FROM emp
+WHERE ename IN ('SMITH', 'WARD');
+
+SELECT *
+FROM emp
+WHERE deptno IN (SELECT deptno
+                FROM emp
+                WHERE ename IN ('SMITH', 'WARD'));
 
 

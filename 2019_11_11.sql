@@ -317,28 +317,8 @@ FROM emp
 WHERE empno IN(7566, 7698, 7499);
 
 
-
-
 SELECT *
 FROM USER_CONSTRAINTS
 WHERE OWNER = 'PC25'
 AND TABLE_NAME IN ('PROD','LPROD')
 AND CONSTRAINT_TYPE IN ('P','R');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                 
-                 

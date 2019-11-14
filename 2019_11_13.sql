@@ -335,11 +335,3 @@ ALTER TABLE emp_test MODIFY (ename NOT NULL);
 
 -- NOT NULL 제약 제거
 ALTER TABLE emp_test MODIFY (ename NULL);
-
-
-
-
-
-
-
-

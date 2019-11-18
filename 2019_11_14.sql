@@ -232,25 +232,3 @@ WHERE empno = 7369;
 SELECT *
 FROM TABLE(dbms_xplan.display);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

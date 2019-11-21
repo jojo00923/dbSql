@@ -151,15 +151,88 @@ WHERE NOT EXISTS (SELECT 'x'
                   WHERE emp.deptno = dept_test.deptno);              
 
 DELETE dept_test 
-WHERE empcnt = (SELECT COUNT(*)
+WHERE empcnt NOT IN (SELECT COUNT(*)
                 FROM emp
                 WHERE emp.deptno = dept_test.deptno
                 GROUP BY deptno);    
-                                
+
+DELETE dept_test 
+WHERE deptno NOT IN (SELECT deptno
+                     FROM emp);    
+                
 rollback;
 
+-- Q.서브쿼리 ADVANCED(correlated subquery delete 실습 sub_a3 45p
+-- EMP테이블을 이용하여 emp_test 테이블 생성
+-- SUBQUERY를 이용하여 emp_test 테이블에서 본인이 속한 부서의 (sal)평균급여보다
+-- 급여가 작은 직원의 급여를 현 급여에서 200을 추가해서 업데이트하는 쿼리를 작성하세요.
+
+-- 조회
+SELECT *
+FROM emp_test;
+
+-- 전 부서 급여 평균
+SELECT avg(sal)
+FROM emp_test
+GROUP BY deptno;
+
+-- 10번 부서 급여 평균
+SELECT avg(sal)
+FROM emp_test
+WHERE deptno = 10;
 
 
+UPDATE emp_test 
+SET sal = sal + 200
+WHERE sal < (SELECT avg(sal)
+            FROM emp_test b
+            WHERE b.sal = emp_test.sal);
 
+-- 쌤 답
 
+-- 이사람들을 update해야함.
+SELECT *
+FROM emp_test
+WHERE deptno = 10
+AND sal <
+        (SELECT avg(sal)
+        FROM emp_test
+        WHERE deptno = 10);
 
+-- 10번 부서에서 부서평균보다 낮은 사람들
+SELECT *
+FROM emp_test a
+WHERE deptno = 10
+AND sal <
+        (SELECT avg(sal)
+        FROM emp_test b
+        WHERE b.deptno = a.deptno);
+
+-- 모든 부서에서 부서평균보다 낮은 사람들
+SELECT *
+FROM emp_test a
+WHERE sal <
+        (SELECT avg(sal)
+        FROM emp_test b
+        WHERE b.deptno = a.deptno);
+        
+-- 답       
+UPDATE emp_test a
+SET sal = sal + 200
+WHERE sal <
+        (SELECT avg(sal)
+        FROM emp_test b
+        WHERE b.deptno = a.deptno);
+
+-- emp, emp_test empno컬럼으로 같은 값끼리 조회(급여 200 더한거 비교하려고)
+-- 1.emp.empno, emp.ename, emp.sal, emp_test.sal
+
+SELECT emp.empno, emp.ename, emp.sal, emp_test.sal 
+FROM emp, emp_test
+WHERE emp.empno = emp_test.empno;
+
+-- 2.emp.empno, emp.ename, emp.sal, emp_test.sal, (마지막 못함...)
+-- 해당사원(emp테이블 기준)이 속한 부서의 급여평균
+SELECT emp.empno, emp.ename, emp.sal, emp_test.sal , emp.deptno
+FROM emp, emp_test
+WHERE emp.empno = emp_test.empno;

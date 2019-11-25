@@ -256,10 +256,21 @@ CONNECT BY PRIOR seq = parent_seq
 ORDER SIBLINGS BY gn DESC, seq;
 
 ----------------------------------------------------------------------------------------- 
--- 5000 ¿·¿¡ 3000, 3000 ¿·¿¡ 3000, 3000 ¿·¿¡ 2975... 800 ¿·¿¡ NULL
-SELECT ename, sal, ROWNUM rn
+-- Q. 5000 ¿·¿¡ 3000, 3000 ¿·¿¡ 3000, 3000 ¿·¿¡ 2975... 800 ¿·¿¡ NULL
+SELECT a.ename, a.sal, b.sal
+FROM
+(SELECT ename, sal, ROWNUM rn
 FROM
     (SELECT ename, sal
     FROM emp
-    ORDER BY sal DESC);
+    ORDER BY sal DESC))a
+    
+    LEFT OUTER JOIN 
+    
+    (SELECT ename, sal, ROWNUM-1 rn
+     FROM
+        (SELECT ename, sal
+        FROM emp
+        ORDER BY sal DESC))b
+ON (a.rn = b.rn);
 
